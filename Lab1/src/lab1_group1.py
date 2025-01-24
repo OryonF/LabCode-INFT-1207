@@ -1,3 +1,12 @@
+############################################################################
+# Program:      Secure Password Generator
+# Authors:      Jayce Baxter and Oryon Facey
+# Date:         January 24th, 2025
+# Description:  Generates a secure password with a user-defined number of
+#               letters, numbers, and symbols
+############################################################################
+
+
 import random
 import string
 
