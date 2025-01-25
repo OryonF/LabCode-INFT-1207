@@ -11,84 +11,119 @@ import random
 import string
 
 # Initializing variables
-validation = False
 password_length_valid = False
-no_of_letters_valid = False
-no_of_digits_valid = False
-no_of_symbols_valid = False
+num_of_letters = 0
+num_of_digits = 0
+num_of_symbols = 0
+min_value = 0
+password_length = 0
+max_value = password_length
 
 # Initializing lists
-letters = []
-digits = []
-symbols = []
+password = []
 
-# Generate a random special character
-random_special = random.choice(string.punctuation)
-
-while validation == False:
-
-    # Prompts the user for password length and validates correct input
-    while password_length_valid == False:
-
-        password_length = input("Please enter the desired length of the password: ")
-
+# Functions
+# this asks the user for their input for the letters, digits and special characters
+def get_user_input(min_value, max_value):
+    prompt = "Please enter a integer value between " + str(min_value) + " and " + str(max_value)
+    input_conditions_met = False
+    new_input = 0
+    while not input_conditions_met:
         try:
-            password_length = int(password_length)
+            new_input = int(input(prompt + " "))
+        except:
+            print("Please enter a number a positive whole number")
+        if  new_input > max_value:
+            print("Please enter a positive whole number less than " + str(max_value))
+            continue
+        elif new_input < min_value:
+            print("Please enter a positive whole number more than " + str(min_value))
+            continue
+        else:
+            max_value = max_value - new_input
+            input_conditions_met = True
+    return max_value, new_input
+# This creates the randomization of the users password
+def create_password(num_of_letters, num_of_digits, num_of_symbols, password_length):
+    length_of_password = 0
+    letter_count = 0
+    digit_count = 0
+    symbol_count =0
+    while length_of_password < password_length:
+        if letter_count < num_of_letters and digit_count < num_of_digits and symbol_count < num_of_symbols:
+            option = random.randint(1, 3)
+            if option == 1:
+                password.append(random.choice(string.ascii_letters))
+                letter_count = letter_count + 1
+            elif option == 2:
+                password.append(random.choice(string.digits))
+                digit_count = digit_count + 1
+            else:
+                password.append(random.choice(string.punctuation))
+                symbol_count = symbol_count + 1
+        elif letter_count < num_of_letters and digit_count < num_of_digits and symbol_count == num_of_symbols:
+            option = random.randint(1, 2)
+            if option == 1:
+                password.append(random.choice(string.ascii_letters))
+                letter_count = letter_count + 1
+            else:
+                password.append(random.choice(string.digits))
+                digit_count = digit_count + 1
+        elif digit_count < num_of_digits and symbol_count < num_of_symbols and letter_count == num_of_letters:
+            option = random.randint(1, 2)
+            if option == 1:
+                password.append(random.choice(string.digits))
+                digit_count = digit_count + 1
+            else:
+                password.append(random.choice(string.punctuation))
+                symbol_count = symbol_count + 1
+        elif symbol_count < num_of_symbols and letter_count < num_of_letters and digit_count < num_of_digits:
+            option = random.randint(1, 2)
+            if option == 1:
+                password.append(random.choice(string.punctuation))
+                symbol_count = symbol_count + 1
+            else:
+                password.append(random.choice(string.ascii_letters))
+                letter_count = letter_count + 1
+        elif letter_count < num_of_letters and digit_count == num_of_digits and symbol_count == num_of_symbols:
+            password.append(random.choice(string.ascii_letters))
+        elif digit_count < num_of_digits and letter_count == num_of_letters and symbol_count == num_of_symbols:
+            password.append(random.choice(string.digits))
+        else:
+            password.append(random.choice(string.punctuation))
+        length_of_password = length_of_password + 1
+    return password
+
+
+
+
+# The start of our program
+if __name__ == "__main__":
+    while not password_length_valid:
+        try:
+            password_length = int(input("Please enter the desired length of the password, must be a positive whole number: "))
+        except:
+            print("Please enter a positive whole number")
+            continue
+        if password_length <= min_value:
+            print("Please enter a positive whole number")
+            continue
+        else:
             password_length_valid = True
+    max_value = password_length
 
-        except ValueError:
-            print("Please enter a number")
+    print("Enter the number of letters you would like to use.")
+    max_value, num_of_letters = get_user_input(min_value, max_value)
 
-    while no_of_letters_valid == False:
+    print("Enter the number of digits you would like to use.")
+    max_value, num_of_digits = get_user_input(min_value, max_value)
 
-        no_of_letters = input("Please enter the number of letters: ")
+    # to make sure we use all the password length
+    print("Enter the number of special character you would like to use.")
+    min_value = max_value
+    max_value, num_of_symbols = get_user_input(min_value, max_value)
 
-        try:
-            no_of_letters = int(no_of_letters)
-            for i in range(no_of_letters):
-                # Generate a random letter
-                random_letter = random.choice(string.ascii_letters)
-                letters.append(random_letter)
-            no_of_letters_valid = True
+    password = create_password(num_of_letters, num_of_digits, num_of_symbols, password_length)
+    user_password = "".join(str(x) for x in password)
 
-        except ValueError:
-            print("Please enter a number")
-
-
-    while no_of_digits_valid == False:
-
-        # Prompts the user for number of digits
-        no_of_digits = input("Please enter the number of digits: ")
-
-        try:
-            no_of_digits = int(no_of_digits)
-            for i in range(no_of_digits):
-                # Generate a random digit
-                random_digit = random.choice(string.digits)
-                digits.append(random_digit)
-            no_of_digits_valid = True
-
-        except ValueError:
-            print("Please enter a number")
-
-    while no_of_symbols_valid == False:
-        # Prompts the user for number of symbols
-        no_of_symbols = input("Please enter the number of symbols: ")
-
-        try:
-            no_of_symbols = int(no_of_symbols)
-            for i in range(no_of_symbols):
-                # Generate a random special character
-                random_special = random.choice(string.punctuation)
-                symbols.append(random_special)
-            no_of_symbols_valid = True
-
-        except ValueError:
-            print("Please enter a number")
-
-    if password_length_valid == True and no_of_letters_valid == True \
-        and no_of_digits_valid == True and no_of_symbols_valid == True:
-        validation = True
-
-
-print(letters, digits, symbols)
+    print(user_password)
