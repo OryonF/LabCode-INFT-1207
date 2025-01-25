@@ -33,6 +33,7 @@ def get_user_input(min_value, max_value):
             new_input = int(input(prompt + " "))
         except:
             print("Please enter a number a positive whole number")
+            continue
         if  new_input > max_value:
             print("Please enter a positive whole number less than " + str(max_value))
             continue
