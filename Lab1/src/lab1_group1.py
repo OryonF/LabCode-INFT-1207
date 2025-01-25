@@ -25,6 +25,7 @@ password = []
 # Functions
 # this asks the user for their input for the letters, digits and special characters
 def get_user_input(min_value, max_value):
+    # prompt ask users to input a value between the minimum value and the maximum value
     prompt = "Please enter a integer value between " + str(min_value) + " and " + str(max_value)
     input_conditions_met = False
     new_input = 0
@@ -50,7 +51,10 @@ def create_password(num_of_letters, num_of_digits, num_of_symbols, password_leng
     letter_count = 0
     digit_count = 0
     symbol_count =0
+    # This make sure the function make the password the length of the user's password length input
     while length_of_password < password_length:
+        # all of these if statements make the program random position a letter, digit, or symbol in the password
+        # the if statements also check to make sure the function only puts in the require amount of each
         if letter_count < num_of_letters and digit_count < num_of_digits and symbol_count < num_of_symbols:
             option = random.randint(1, 3)
             if option == 1:
@@ -100,6 +104,8 @@ def create_password(num_of_letters, num_of_digits, num_of_symbols, password_leng
 
 # The start of our program
 if __name__ == "__main__":
+    # the initial password length loop
+    # this loops until the user enters the required numeric amount
     while not password_length_valid:
         try:
             password_length = int(input("Please enter the desired length of the password, must be a positive whole number: "))
@@ -114,17 +120,26 @@ if __name__ == "__main__":
     max_value = password_length
 
     print("Enter the number of letters you would like to use.")
+    # runs the function get_user_input and assign the returned values to
+    # max_value and num_of_letters
     max_value, num_of_letters = get_user_input(min_value, max_value)
 
     print("Enter the number of digits you would like to use.")
+    # runs the function get_user_input and assign the returned values to
+    # max_value and num_of_digits
     max_value, num_of_digits = get_user_input(min_value, max_value)
 
-    # to make sure we use all the password length
-    print("Enter the number of special character you would like to use.")
-    min_value = max_value
-    max_value, num_of_symbols = get_user_input(min_value, max_value)
 
+    print("Enter the number of special character you would like to use.")
+    # to make sure we use all the password length
+    min_value = max_value
+    # runs the function get_user_input and assign the returned values to
+    # max_value and num_of_symbols
+    max_value, num_of_symbols = get_user_input(min_value, max_value)
+    # assigns the return value of create_password to the password variable because it is an array
+    # the variable password is now an array
     password = create_password(num_of_letters, num_of_digits, num_of_symbols, password_length)
+    # converts the array password into a string that is assigned to user_password
     user_password = "".join(str(x) for x in password)
 
-    print(user_password)
+    print("Your generated password is " + user_password)
