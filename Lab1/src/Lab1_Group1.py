@@ -6,7 +6,6 @@
 #               letters, numbers, and symbols
 ############################################################################
 
-
 import random
 import string
 
@@ -45,16 +44,17 @@ def get_user_input(min_value, max_value):
             max_value = max_value - new_input
             input_conditions_met = True
     return max_value, new_input
+
 # This creates the randomization of the users password
 def create_password(num_of_letters, num_of_digits, num_of_symbols, password_length):
     length_of_password = 0
     letter_count = 0
     digit_count = 0
     symbol_count =0
-    # This make sure the function make the password the length of the user's password length input
+    # This makes sure the function make the password the length of the user's password length input
     while length_of_password < password_length:
         # all of these if statements make the program random position a letter, digit, or symbol in the password
-        # the if statements also check to make sure the function only puts in the require amount of each
+        # the if statements also check to make sure the function only puts in the required amount of each
         if letter_count < num_of_letters and digit_count < num_of_digits and symbol_count < num_of_symbols:
             option = random.randint(1, 3)
             if option == 1:
@@ -99,11 +99,9 @@ def create_password(num_of_letters, num_of_digits, num_of_symbols, password_leng
         length_of_password = length_of_password + 1
     return password
 
-
-
-
 # The start of our program
 if __name__ == "__main__":
+
     # the initial password length loop
     # this loops until the user enters the required numeric amount
     while not password_length_valid:
@@ -120,6 +118,7 @@ if __name__ == "__main__":
     max_value = password_length
 
     print("Enter the number of letters you would like to use.")
+
     # runs the function get_user_input and assign the returned values to
     # max_value and num_of_letters
     max_value, num_of_letters = get_user_input(min_value, max_value)
@@ -131,14 +130,18 @@ if __name__ == "__main__":
 
 
     print("Enter the number of special character you would like to use.")
+
     # to make sure we use all the password length
     min_value = max_value
+
     # runs the function get_user_input and assign the returned values to
     # max_value and num_of_symbols
     max_value, num_of_symbols = get_user_input(min_value, max_value)
+
     # assigns the return value of create_password to the password variable because it is an array
     # the variable password is now an array
     password = create_password(num_of_letters, num_of_digits, num_of_symbols, password_length)
+
     # converts the array password into a string that is assigned to user_password
     user_password = "".join(str(x) for x in password)
 
