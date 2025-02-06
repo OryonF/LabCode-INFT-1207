@@ -49,7 +49,7 @@ def delete_book(title):
         writer = csv.writer(file)
         writer.writerows(books)
 
-    print(f'Book "{title}" has been deleted (if it existed).')
+    return f'Book "{title}" has been deleted (if it existed).'
 
 # Menu loop
 def menu():
@@ -70,7 +70,7 @@ def menu():
             print(search_book(title))
         elif choice == '4':
             title = input("Enter book title to search: ")
-            delete_book(title)
+            print(delete_book(title))
         elif choice == "5":
             break
         else:
