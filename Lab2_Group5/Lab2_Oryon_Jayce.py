@@ -34,14 +34,28 @@ def search_book(title):
 
 # We need a delete book function
 def delete_book(title):
-    # Just filler until we add actual code
-    filler = ""
 
+    # Read all books except the one to be deleted
+    with open("books.csv", mode="r") as file:
+        reader = csv.reader(file)
+        # Makes a new list called books that will copy the contents of
+        # books.csv except for the title the user wishes to delete.
+        # Also row[0].lower() != title.lower() makes it not case
+        # sensitive.
+        books = [row for row in reader if row and row[0].lower() != title.lower()]
+
+    # Write back only the books that were not deleted
+    with open("books.csv", mode="w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows(books)
+
+    print(f'Book "{title}" has been deleted (if it existed).')
 
 # Menu loop
 def menu():
     while True:
-        print("\n1. Add Book\n2. List Books\n3. Search Book\n4. Quit")
+        print("\n1. Add Book\n2. List Books\n3. Search Book\n4. Delete Book "
+              "\n5. Quit")
         choice = input("Select an option: ")
 
         if choice == '1':
@@ -55,6 +69,9 @@ def menu():
             title = input("Enter book title to search: ")
             print(search_book(title))
         elif choice == '4':
+            title = input("Enter book title to search: ")
+            delete_book(title)
+        elif choice == "5":
             break
         else:
             print("Invalid choice. Try again.")
