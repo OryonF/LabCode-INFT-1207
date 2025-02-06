@@ -10,10 +10,14 @@ def add_book(title, author, year):
 
 # Function to list all books
 def list_books():
+    # We are going to make an array of books for the books list in
+    # books.csv
+    books = []
     with open("books.csv", mode='r') as file:
         reader = csv.reader(file)
         for row in reader:
-            print(f'Title: {row[0]}, Author: {row[1]}, Year: {row[2]}')
+            books.append(f'Title: {row[0]}, Author: {row[1]}, Year: {row[2]}')
+    return "\n".join(books)
 
 
 # Function to search for a book by title
@@ -22,9 +26,11 @@ def search_book(title):
         reader = csv.reader(file)
         for row in reader:
             if row[0].lower() == title.lower():
-                print(f'Found: Title: {row[0]}, Author: {row[1]}, Year: {row[2]}')
-                return
-        print('Book not found')
+                # returns the f string, this is important to make the
+                # testing work because the print method does not return a
+                # value it only displays a message.
+                return f'Found: Title: {row[0]}, Author: {row[1]}, Year: {row[2]}'
+        return 'Book not found'
 
 
 # Menu loop
@@ -39,10 +45,10 @@ def menu():
             year = input("Enter year of publication: ")
             add_book(title, author, year)
         elif choice == '2':
-            list_books()
+            print(list_books())
         elif choice == '3':
             title = input("Enter book title to search: ")
-            search_book(title)
+            print(search_book(title))
         elif choice == '4':
             break
         else:
