@@ -32,6 +32,11 @@ def search_book(title):
                 return f'Found: Title: {row[0]}, Author: {row[1]}, Year: {row[2]}'
         return 'Book not found'
 
+# We need a delete book function
+def delete_book(title):
+    # Just filler until we add actual code
+    filler = ""
+
 
 # Menu loop
 def menu():
