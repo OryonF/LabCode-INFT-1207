@@ -11,11 +11,19 @@ import csv
 # Function to add a book to the reading list
 def add_book(title, author, year):
 
+    # Validating that input is not null
+    if title == '' or\
+        author == '' or\
+        year == '':
+        print("Input cannot be null.")
+        return
+
     # Validating that the year is a number
     try:
         year = int(year)
     except:
         print("Year must be a digit.")
+        return
 
     # Validating that the year makes sense (book published between year 1 and 2025)
     if year > 2025 or year < 1:
