@@ -1,13 +1,27 @@
+##################################################################
+# Program:          Lab 2 - Book List
+# Authors:          Jayce Johnson and Oryon Facey
+# Date:             February 7th, 2025
+# Description:      Allows the user to add, list, and delete books 
+#                   from a CSV file.
+##################################################################
+
 import csv
 
 # Function to add a book to the reading list
 def add_book(title, author, year):
+
+    # Validating that the year is a number
     try:
         year = int(year)
     except:
         print("Year must be a digit.")
+
+    # Validating that the year makes sense (book published between year 1 and 2025)
     if year > 2025 or year < 1:
         print("Please enter a valid year.")
+
+    # If validation passes, adds to csv
     else:
         with open("books.csv", mode='a', newline='') as file:
             writer = csv.writer(file)
@@ -40,6 +54,8 @@ def search_book(title):
 # We need a delete book function
 def delete_book(title):
 
+    book_found = False
+
     # Read all books except the one to be deleted
     with open("books.csv", mode="r") as file:
         reader = csv.reader(file)
@@ -47,14 +63,22 @@ def delete_book(title):
         # books.csv except for the title the user wishes to delete.
         # Also row[0].lower() != title.lower() makes it not case
         # sensitive.
-        books = [row for row in reader if row and row[0].lower() != title.lower()]
+        books = []
+        for row in reader:
+            if row[0].lower() == title.lower():
+                book_found = True
+            else:
+                books.append(row)
 
     # Write back only the books that were not deleted
     with open("books.csv", mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(books)
 
-    return f'Book "{title}" has been deleted (if it existed).'
+    if book_found == True:
+        return f"{title} has been deleted."
+    else:
+        return "Book not found. No records deleted."
 
 # Menu loop
 def menu():
