@@ -1,12 +1,17 @@
 import csv
 
-
 # Function to add a book to the reading list
 def add_book(title, author, year):
-    with open("books.csv", mode='a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([title, author, year])
-
+    try:
+        year = int(year)
+    except:
+        print("Year must be a digit.")
+    if year > 2025 or year < 1:
+        print("Please enter a valid year.")
+    else:
+        with open("books.csv", mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([title, author, year])
 
 # Function to list all books
 def list_books():
