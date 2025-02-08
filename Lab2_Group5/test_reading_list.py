@@ -18,12 +18,17 @@ class TestReadingList(unittest.TestCase):
         """Test searching for an existing book."""
         output_result = search_book("Super_Coolbros")  # Now it returns a value
         expected_output = "Found: Title: Super_Coolbros, Author: Nintenfake, Year: 1991"
-        self.assertEqual(output_result, expected_output, "search_book did not return the expected output.")
+        self.assertEqual(output_result, expected_output, "Book not found")
 
     def test_list_books(self):
-        add_book("Oryx and Crake", "Margaret Atwood", 2003)
-        result = search_book("Oryx and Crake")
-        self.assertEqual(result, "Found: Title: Oryx and Crake, Author: Margaret Atwood, Year: 2003")
+        output_result = list_books()
+        books = []
+        with open("books.csv", mode='r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                books.append(f'Title: {row[0]}, Author: {row[1]}, Year: {row[2]}')
+        expected_output =  "\n".join(books)
+        self.assertEqual(output_result, expected_output)
 
     def test_delete_books(self):
         add_book("Delete me", "Test author", 2025)
@@ -32,34 +37,28 @@ class TestReadingList(unittest.TestCase):
         self.assertEqual(result, "Book not found")
 
     def test_null_title(self):
-        add_book("", "test null title", 2025)
-        result = search_book("")
-        self.assertEqual(result, "Book not found")
+        self.assertEqual(add_book("", "test null title", 2025),
+                         "Input cannot be null.")
 
     def test_null_author(self):
-        add_book("test null author", "", 2025)
-        result = search_book("test null author")
-        self.assertEqual(result, "Book not found")
+        self.assertEqual(add_book("test null author", "", 2025),
+                         "Input cannot be null.")
 
     def test_null_year(self):
-        add_book("test null year", "test null year author", "")
-        result = search_book("test null year")
-        self.assertEqual(result, "Book not found")
+        self.assertEqual(add_book("test null year", "test null year author", ""),
+                         "Input cannot be null.")
 
     def test_year_not_numeric(self):
-        add_book("test alpha year", "test alpha year author", "year")
-        result = search_book("test alpha year")
-        self.assertEqual(result, "Book not found")
+        self.assertEqual(add_book("test alpha year", "test alpha year author", "year"),
+                         "Year must be a digit.")
 
     def test_year_high(self):
-        add_book("test year too high", "year too high author", 2026)
-        result = search_book("test year too high")
-        self.assertEqual(result, "Book not found")
+        self.assertEqual(add_book("test year too high", "year too high author", 2026),
+                         "Please enter a valid year.")
 
     def test_year_low(self):
-        add_book("test year too low", "year too low author", -500)
-        result = search_book("test year too low")
-        self.assertEqual(result, "Book not found")
+        self.assertEqual(add_book("test year too low", "year too low author", -500),
+                         "Please enter a valid year.")
 
 
 if __name__ == '__main__':

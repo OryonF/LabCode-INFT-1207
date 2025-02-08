@@ -2,8 +2,8 @@
 # Program:          Lab 2 - Book List
 # Authors:          Jayce Johnson and Oryon Facey
 # Date:             February 7th, 2025
-# Description:      Allows the user to add, list, and delete books 
-#                   from a CSV file.
+# Description:      Allows the user to add, list, search and
+#                   delete books from a CSV file.
 ##################################################################
 
 import csv
@@ -15,25 +15,25 @@ def add_book(title, author, year):
     if title == '' or\
         author == '' or\
         year == '':
-        print("Input cannot be null.")
-        return
+        # This allows test reading list to receive the value
+        return "Input cannot be null."
 
     # Validating that the year is a number
     try:
         year = int(year)
     except:
-        print("Year must be a digit.")
-        return
+        return "Year must be a digit."
 
     # Validating that the year makes sense (book published between year 1 and 2025)
     if year > 2025 or year < 1:
-        print("Please enter a valid year.")
+        return "Please enter a valid year."
 
     # If validation passes, adds to csv
     else:
         with open("books.csv", mode='a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([title, author, year])
+            return f'{title} has been added'
 
 # Function to list all books
 def list_books():
@@ -99,7 +99,7 @@ def menu():
             title = input("Enter book title: ")
             author = input("Enter author name: ")
             year = input("Enter year of publication: ")
-            add_book(title, author, year)
+            print(add_book(title, author, year))
         elif choice == '2':
             print(list_books())
         elif choice == '3':
