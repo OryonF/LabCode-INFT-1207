@@ -83,6 +83,8 @@ def delete_book(title):
         writer = csv.writer(file)
         writer.writerows(books)
 
+    # If the book is found, sets book_found to true and outputs that it was deleted
+    # Otherwise, outputs that it was not deleted.
     if book_found == True:
         return f"{title} has been deleted."
     else:
@@ -91,25 +93,38 @@ def delete_book(title):
 # Menu loop
 def menu():
     while True:
+
+        # Lists options, and prompts the user to enter
         print("\n1. Add Book\n2. List Books\n3. Search Book\n4. Delete Book "
               "\n5. Quit")
         choice = input("Select an option: ")
 
+        # Add book
         if choice == '1':
             title = input("Enter book title: ")
             author = input("Enter author name: ")
             year = input("Enter year of publication: ")
             print(add_book(title, author, year))
+
+        # List books
         elif choice == '2':
             print(list_books())
+
+        # Search books
         elif choice == '3':
             title = input("Enter book title to search: ")
             print(search_book(title))
+
+        # Delete book
         elif choice == '4':
             title = input("Enter book title to search: ")
             print(delete_book(title))
+
+        # Quit
         elif choice == "5":
             break
+
+        # Prompts the user to enter again if the input was invalid
         else:
             print("Invalid choice. Try again.")
 
